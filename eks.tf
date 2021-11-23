@@ -23,8 +23,8 @@ module "eks" {
 
   worker_groups = [
     {
-      name          = "worker-group-1"
-      instance_type = "m5.large"
+      name                 = "worker-group-1"
+      instance_type        = "m5.large"
       asg_desired_capacity = 3
     },
   ]
