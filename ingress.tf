@@ -20,6 +20,17 @@ data "kubernetes_service" "k8s_dashboard_ingress" {
   ]
 }
 
+data "kubernetes_service" "keycloak_ingress" {
+  metadata {
+    name      = "keycloak"
+    namespace = "spinnaker"
+  }
+
+  depends_on = [
+    helm_release.keycloak,
+  ]
+}
+
 resource "kubernetes_ingress" "jenkins_ingress" {
 
   wait_for_load_balancer = true

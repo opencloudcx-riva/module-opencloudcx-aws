@@ -137,6 +137,11 @@ resource "helm_release" "jenkins" {
   }
 
   set {
+    name  = "controller.installLatestSpecifiedPlugins"
+    value = "true"
+  }
+
+  set {
     name  = "controller.numExecutors"
     value = "1"
   }
@@ -244,5 +249,31 @@ resource "helm_release" "cert-manager" {
   depends_on = [
     module.eks,
     kubernetes_namespace.dashboard,
+  ]
+}
+
+resource "helm_release" "keycloak" {
+  name             = "keycloak"
+  chart            = "keycloak"
+  namespace        = "spinnaker"
+  repository       = var.helm_keycloak
+  timeout          = var.helm_timeout
+  version          = var.helm_keycloak_version
+  create_namespace = false
+  reset_values     = false
+
+  set {
+    name  = "auth.adminPassword"
+    value = var.keycloak_admin_secret
+  }
+
+  set {
+    name  = "auth.managementPassword"
+    value = var.keycloak_user_secret
+  }
+
+  depends_on = [
+    module.eks,
+    kubernetes_namespace.spinnaker,
   ]
 }
