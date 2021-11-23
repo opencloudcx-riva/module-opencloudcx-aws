@@ -31,6 +31,40 @@ data "kubernetes_service" "keycloak_ingress" {
   ]
 }
 
+resource "kubernetes_ingress" "jenkins_ingress_insecure" {
+
+  wait_for_load_balancer = true
+
+  metadata {
+    name      = "jenkins-insecure"
+    namespace = "jenkins"
+    annotations = {
+      "kubernetes.io/ingress.class"    = "nginx"
+    }
+  }
+  spec {
+    rule {
+
+      host = "jenkins-insecure.${var.dns_zone}"
+
+      http {
+        path {
+          path = "/"
+          backend {
+            service_name = "jenkins"
+            service_port = 8080
+          }
+        }
+      }
+    }
+  }
+
+  depends_on = [
+    helm_release.jenkins,
+    helm_release.ingress-controller,
+  ]
+}
+
 resource "kubernetes_ingress" "jenkins_ingress" {
 
   wait_for_load_balancer = true

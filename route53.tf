@@ -15,6 +15,19 @@ resource "aws_route53_record" "jenkins_cname" {
   ]
 }
 
+resource "aws_route53_record" "jenkins_insecure_cname" {
+  zone_id = data.aws_route53_zone.vpc.zone_id
+  name    = "jenkins-insecure.${var.dns_zone}"
+  type    = "CNAME"
+  ttl     = "300"
+  records = [data.kubernetes_service.ingress_nginx.status.0.load_balancer.0.ingress.0.hostname]
+
+  depends_on = [
+    helm_release.ingress-controller,
+    helm_release.jenkins,
+  ]
+}
+
 resource "aws_route53_record" "k8s_dashboard_cname" {
   zone_id = data.aws_route53_zone.vpc.zone_id
   name    = "dashboard.${var.dns_zone}"
@@ -80,3 +93,15 @@ resource "aws_route53_record" "spinnaker_gate_cname" {
   ]
 }
 
+resource "aws_route53_record" "spinnaker_cname" {
+  zone_id = data.aws_route53_zone.vpc.zone_id
+  name    = "spinnaker.${var.dns_zone}"
+  type    = "CNAME"
+  ttl     = "300"
+  records = [data.kubernetes_service.ingress_nginx.status.0.load_balancer.0.ingress.0.hostname]
+
+  depends_on = [
+    helm_release.ingress-controller,
+    helm_release.spinnaker,
+  ]
+}
