@@ -2,6 +2,11 @@ variable "name" {
   type = string
 }
 
+variable "stack" {
+  type    = string
+  default = "dev"
+}
+
 variable "cluster_version" {
   type = string
 }
@@ -19,6 +24,13 @@ variable "helm_timeout" {
   description = "Timeout value to wailt for helm chat deployment"
   type        = number
   default     = 600
+}
+
+### tags
+variable "tags" {
+  description = "The key-value maps for tagging"
+  type        = map(string)
+  default     = {}
 }
 
 ###########################################################
