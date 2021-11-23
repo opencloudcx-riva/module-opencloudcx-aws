@@ -29,6 +29,9 @@ module "eks" {
     },
   ]
 
+  map_roles    = var.map_roles
+  map_users    = var.map_users
+
   tags = {
     Example    = local.name
     GithubRepo = "terraform-aws-eks"
