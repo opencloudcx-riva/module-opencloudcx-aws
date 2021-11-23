@@ -1,3 +1,131 @@
+resource "helm_release" "cert-manager" {
+  name             = "cert-manager"
+  chart            = "cert-manager"
+  namespace        = "cert-manager"
+  repository       = var.cert_manager_helm_repo
+  timeout          = var.helm_timeout
+  create_namespace = false
+  reset_values     = false
+
+  set {
+    name  = "installCRDs"
+    value = "true"
+  }
+
+  depends_on = [
+    module.eks,
+    kubernetes_namespace.dashboard,
+  ]
+}
+
+resource "helm_release" "grafana" {
+  name             = "grafana"
+  chart            = "grafana"
+  namespace        = "opencloudcx"
+  repository       = var.grafana_helm_repo
+  timeout          = var.helm_timeout
+  version          = var.grafana_helm_chart_version
+  create_namespace = false
+  reset_values     = false
+
+  set {
+    name  = "service.type"
+    value = "ClusterIP"
+  }
+
+  set {
+    name  = "admin.existingSecret"
+    value = "grafana-admin"
+  }
+
+  set {
+    name  = "admin.userKey"
+    value = "username"
+  }
+
+  set {
+    name  = "admin.passwordKey"
+    value = "password"
+  }
+
+  set {
+    name  = "plugins[0]"
+    value = "grafana-piechart-panel"
+  }
+
+  set {
+    name  = "plugins[1]"
+    value = "grafana-worldmap-panel"
+  }
+
+  set {
+    name  = "plugins[2]"
+    value = "grafana-clock-panel"
+  }
+
+  set {
+    name  = "plugins[3]"
+    value = "grafana-simple-json-datasource"
+  }
+
+  set {
+    name  = "plugins[4]"
+    value = "grafana-googlesheets-datasource"
+  }
+
+  set {
+    name  = "plugins[5]"
+    value = "marcusolsson-csv-datasource"
+  }
+
+  depends_on = [
+    module.eks,
+    kubernetes_namespace.opencloudcx,
+  ]
+}
+
+resource "helm_release" "influxdb" {
+  name             = "bitnami"
+  chart            = "influxdb"
+  namespace        = "opencloudcx"
+  repository       = var.influxdb_helm_repo
+  timeout          = var.helm_timeout
+  version          = var.influxdb_helm_chart_version
+  create_namespace = false
+  reset_values     = false
+
+
+  set {
+    name  = "database"
+    value = "prometheus"
+  }
+
+  set {
+    name  = "adminUser.name"
+    value = "admin"
+  }
+
+  set {
+    name  = "adminUser.pwd"
+    value = random_password.influx_admin_password.result
+  }
+
+  set {
+    name  = "user.name"
+    value = "prometheus"
+  }
+
+  set {
+    name  = "user.pwd"
+    value = random_password.influx_user_password.result
+  }
+
+  depends_on = [
+    module.eks,
+    kubernetes_namespace.opencloudcx,
+  ]
+}
+
 resource "helm_release" "ingress-controller" {
   name             = "ingress-nginx"
   chart            = "ingress-nginx"
@@ -15,104 +143,6 @@ resource "helm_release" "ingress-controller" {
   depends_on = [
     module.eks,
     kubernetes_namespace.ingress-nginx
-  ]
-}
-
-resource "helm_release" "spinnaker" {
-  name             = "spinnaker"
-  chart            = "spinnaker"
-  namespace        = "spinnaker"
-  repository       = var.spinnaker_helm_repo
-  timeout          = var.helm_timeout
-  version          = var.spinnaker_helm_chart_version
-  create_namespace = false
-  reset_values     = false
-
-  set {
-    name  = "halyard.additionalScripts.enabled"
-    value = "true"
-  }
-
-  set {
-    name  = "halyard.additionalScripts.configMapName"
-    value = "jenkins-setup-script"
-  }
-
-  set {
-    name  = "halyard.additionalScripts.configMapKey"
-    value = "get-token.sh"
-  }
-
-  set {
-    name  = "halyard.spinnakerVersion"
-    value = "1.19.12"
-  }
-
-  set {
-    name  = "global.spinDeck.protocol"
-    value = "https"
-  }
-
-  set {
-    name  = "installOpenLdap"
-    value = "true"
-  }
-
-  set {
-    name  = "ldap.enabled"
-    value = "true"
-  }
-
-  set {
-    name  = "ldap.url"
-    value = "ldap://-openldap:389"
-  }
-
-  set {
-    name  = "sapor.config.spinnaker.authnEnabled"
-    value = "true"
-  }
-
-  depends_on = [
-    module.eks,
-    kubernetes_namespace.spinnaker,
-  ]
-}
-
-resource "helm_release" "k8s_dashboard" {
-  name             = "k8s-dashboard"
-  chart            = "kubernetes-dashboard"
-  namespace        = "dashboard"
-  repository       = var.k8s_dashboard_helm_repo
-  timeout          = var.helm_timeout
-  version          = var.k8s_dashboard_helm_chart_version
-  create_namespace = false
-  reset_values     = false
-
-  set {
-    name  = "settings.itemsPerPage"
-    value = 30
-  }
-
-  set {
-    name  = "ingress.enabled"
-    value = true
-  }
-
-  set {
-    name  = "service.type"
-    value = "LoadBalancer"
-  }
-
-  set {
-    name  = "settings.clusterName"
-    value = "OpenCloudCX"
-    #value = "OpenCloudCX [stack:${var.stack}]"
-  }
-
-  depends_on = [
-    module.eks,
-    kubernetes_namespace.dashboard,
   ]
 }
 
@@ -232,18 +262,61 @@ resource "helm_release" "jenkins" {
   ]
 }
 
-resource "helm_release" "cert-manager" {
-  name             = "cert-manager"
-  chart            = "cert-manager"
-  namespace        = "cert-manager"
-  repository       = var.cert_manager_helm_repo
+resource "helm_release" "keycloak" {
+  name             = "keycloak"
+  chart            = "keycloak"
+  namespace        = "spinnaker"
+  repository       = var.keycloak_helm_repo
   timeout          = var.helm_timeout
+  version          = var.keycloak_helm_chart_version
   create_namespace = false
   reset_values     = false
 
   set {
-    name  = "installCRDs"
-    value = "true"
+    name  = "auth.adminPassword"
+    value = random_password.keycloak_admin_password.result
+  }
+
+  set {
+    name  = "auth.managementPassword"
+    value = random_password.keycloak_user_password.result
+  }
+
+  depends_on = [
+    module.eks,
+    kubernetes_namespace.spinnaker,
+  ]
+}
+
+resource "helm_release" "k8s_dashboard" {
+  name             = "k8s-dashboard"
+  chart            = "kubernetes-dashboard"
+  namespace        = "dashboard"
+  repository       = var.k8s_dashboard_helm_repo
+  timeout          = var.helm_timeout
+  version          = var.k8s_dashboard_helm_chart_version
+  create_namespace = false
+  reset_values     = false
+
+  set {
+    name  = "settings.itemsPerPage"
+    value = 30
+  }
+
+  set {
+    name  = "ingress.enabled"
+    value = true
+  }
+
+  set {
+    name  = "service.type"
+    value = "LoadBalancer"
+  }
+
+  set {
+    name  = "settings.clusterName"
+    value = "OpenCloudCX"
+    #value = "OpenCloudCX [stack:${var.stack}]"
   }
 
   depends_on = [
@@ -252,24 +325,90 @@ resource "helm_release" "cert-manager" {
   ]
 }
 
-resource "helm_release" "keycloak" {
-  name             = "keycloak"
-  chart            = "keycloak"
-  namespace        = "spinnaker"
-  repository       = var.helm_keycloak
+resource "helm_release" "selenium3_grid" {
+  name             = "selenium3"
+  chart            = "selenium3"
+  namespace        = "jenkins"
+  repository       = var.selenium_helm_repo
   timeout          = var.helm_timeout
-  version          = var.helm_keycloak_version
+  version          = var.selenium_helm_chart_version
   create_namespace = false
   reset_values     = false
 
   set {
-    name  = "auth.adminPassword"
-    value = var.keycloak_admin_secret
+    name  = "firefox.enabled"
+    value = "true"
   }
 
   set {
-    name  = "auth.managementPassword"
-    value = var.keycloak_user_secret
+    name  = "chrome.enabled"
+    value = "true"
+  }
+
+  set {
+    name  = "hub.serviceType"
+    value = "ClusterIP"
+  }
+
+  depends_on = [
+    module.eks,
+    kubernetes_namespace.jenkins,
+  ]
+}
+
+resource "helm_release" "spinnaker" {
+  name             = "spinnaker"
+  chart            = "spinnaker"
+  namespace        = "spinnaker"
+  repository       = var.spinnaker_helm_repo
+  timeout          = var.helm_timeout
+  version          = var.spinnaker_helm_chart_version
+  create_namespace = false
+  reset_values     = false
+
+  set {
+    name  = "halyard.additionalScripts.enabled"
+    value = "true"
+  }
+
+  set {
+    name  = "halyard.additionalScripts.configMapName"
+    value = "jenkins-setup-script"
+  }
+
+  set {
+    name  = "halyard.additionalScripts.configMapKey"
+    value = "get-token.sh"
+  }
+
+  set {
+    name  = "halyard.spinnakerVersion"
+    value = "1.19.12"
+  }
+
+  set {
+    name  = "global.spinDeck.protocol"
+    value = "https"
+  }
+
+  set {
+    name  = "installOpenLdap"
+    value = "true"
+  }
+
+  set {
+    name  = "ldap.enabled"
+    value = "true"
+  }
+
+  set {
+    name  = "ldap.url"
+    value = "ldap://-openldap:389"
+  }
+
+  set {
+    name  = "sapor.config.spinnaker.authnEnabled"
+    value = "true"
   }
 
   depends_on = [
@@ -277,3 +416,4 @@ resource "helm_release" "keycloak" {
     kubernetes_namespace.spinnaker,
   ]
 }
+
