@@ -33,6 +33,38 @@ variable "tags" {
   default     = {}
 }
 
+variable "map_roles" {
+  description = "Additional IAM roles to add to the aws-auth configmap."
+  type = list(object({
+    rolearn  = string
+    username = string
+    groups   = list(string)
+  }))
+  default = []
+}
+
+variable "map_users" {
+  description = "Additional IAM users to add to the aws-auth configmap."
+  type = list(object({
+    userarn  = string
+    username = string
+    groups   = list(string)
+  }))
+  default = []
+}
+
+variable "cluster_delete_timeout" {
+  description = "Timeout value when deleting the EKS cluster."
+  type        = string
+  default     = "15m"
+}
+
+variable "write_kubeconfig" {
+  description = "Whether to write a Kubectl config file containing the cluster configuration. Saved to `kubeconfig_output_path`."
+  type        = bool
+  default     = true
+}
+
 ###########################################################
 ### Spinnaker helm information
 ###
@@ -98,7 +130,7 @@ variable "jenkins_helm_repo" {
 variable "jenkins_helm_chart_version" {
   description = "Helm chart version for jenkins"
   type        = string
-  default     = "3.5.14"
+  default     = "3.8.8"
 }
 
 ###
@@ -116,3 +148,23 @@ variable "cert_manager_helm_repo" {
 
 ###
 ###########################################################
+
+###########################################################
+### keycloak helm information
+###
+
+variable "keycloak_helm_repo" {
+  description = "URL for keycloak helm chart repository"
+  type        = string
+  default     = "https://charts.bitnami.com/bitnami"
+}
+
+variable "jenkins_helm_chart_version" {
+  description = "Version for keycloak helm chart"
+  type        = string
+  default     = "5.1.2"
+}
+
+###
+###########################################################
+
