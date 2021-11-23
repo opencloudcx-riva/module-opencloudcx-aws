@@ -109,6 +109,40 @@ resource "aws_secretsmanager_secret_version" "grafana_secret_version" {
   secret_string = "{\"username\": \"admin\", \"password\": \"${random_password.grafana_password.result}\"}"
 }
 
+##################################
+## Influxdb
+
+resource "aws_secretsmanager_secret" "influx_admin_secret" {
+  name                    = "${random_string.scope.id}-influx-admin"
+  recovery_window_in_days = 0
+}
+
+resource "random_password" "influx_admin_password" {
+  length           = 24
+  special          = true
+  override_special = "_%@"
+}
+
+resource "aws_secretsmanager_secret_version" "influx_admin_secret_version" {
+  secret_id     = aws_secretsmanager_secret.influx_admin_secret.id
+  secret_string = "{\"username\": \"admin\", \"password\": \"${random_password.influx_admin_password.result}\"}"
+}
+
+resource "aws_secretsmanager_secret" "influx_user_secret" {
+  name                    = "${random_string.scope.id}-influx-user"
+  recovery_window_in_days = 0
+}
+
+resource "random_password" "influx_user_password" {
+  length           = 24
+  special          = true
+  override_special = "_%@"
+}
+
+resource "aws_secretsmanager_secret_version" "influx_user_secret_version" {
+  secret_id     = aws_secretsmanager_secret.influx_user_secret.id
+  secret_string = "{\"username\": \"user\", \"password\": \"${random_password.influx_user_password.result}\"}"
+}
 
 
 

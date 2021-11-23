@@ -159,10 +159,67 @@ variable "keycloak_helm_repo" {
   default     = "https://charts.bitnami.com/bitnami"
 }
 
-variable "jenkins_helm_chart_version" {
+variable "keycloak_helm_chart_version" {
   description = "Version for keycloak helm chart"
   type        = string
   default     = "5.1.2"
+}
+
+###
+###########################################################
+
+###########################################################
+### grafana helm information
+###
+
+variable "grafana_helm_repo" {
+  description = "URL for grafana helm chart repository"
+  type        = string
+  default     = "https://grafana.github.io/helm-charts"
+}
+
+variable "grafana_helm_chart_version" {
+  description = "Version for grafana helm chart"
+  type        = string
+  default     = "6.17.5"
+}
+
+###
+###########################################################
+
+###########################################################
+### selenium helm information
+###
+
+variable "selenium_helm_repo" {
+  description = "URL for selenium helm chart repository"
+  type        = string
+  default     = "https://chart.testarchitect.com"
+}
+
+variable "selenium_helm_chart_version" {
+  description = "Version for selenium helm chart"
+  type        = string
+  default     = "1.2.4"
+}
+
+###
+###########################################################
+
+###########################################################
+### influxdb helm information
+###
+
+variable "influxdb_helm_repo" {
+  description = "A repository url of helm chart to deploy InfluxDB"
+  type        = string
+  default     = "https://charts.bitnami.com/bitnami"
+}
+
+variable "influxdb_helm_chart_version" {
+  description = "Version for selenium helm chart"
+  type        = string
+  default     = "2.4.1"
 }
 
 ###

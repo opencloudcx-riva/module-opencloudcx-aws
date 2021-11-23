@@ -109,3 +109,124 @@ resource "kubernetes_ingress" "spinnaker_ingress" {
     helm_release.ingress-controller,
   ]
 }
+
+resource "kubernetes_ingress" "spinnaker_gate__ingress" {
+
+  wait_for_load_balancer = true
+
+  metadata {
+    name      = "spinnaker-gate"
+    namespace = "spinnaker"
+
+    annotations = {
+      "kubernetes.io/ingress.class"    = "nginx"
+      "cert-manager.io/cluster-issuer" = "cert-manager"
+    }
+  }
+  spec {
+    rule {
+
+      host = "spinnaker-gate.${var.dns_zone}"
+
+      http {
+        path {
+          path = "/"
+          backend {
+            service_name = "spin-gate"
+            service_port = 8084
+          }
+        }
+      }
+    }
+
+    tls {
+      secret_name = "spinnaker-tls-secret"
+    }
+  }
+
+  depends_on = [
+    helm_release.spinnaker,
+    helm_release.ingress-controller,
+  ]
+}
+
+resource "kubernetes_ingress" "grafana_ingress" {
+
+  wait_for_load_balancer = true
+
+  metadata {
+    name      = "grafana"
+    namespace = "opencloudcx"
+
+    annotations = {
+      "kubernetes.io/ingress.class"    = "nginx"
+      "cert-manager.io/cluster-issuer" = "cert-manager"
+    }
+  }
+  spec {
+    rule {
+
+      host = "grafana.${var.dns_zone}"
+
+      http {
+        path {
+          path = "/"
+          backend {
+            service_name = "grafana"
+            service_port = 3000
+          }
+        }
+      }
+    }
+
+    tls {
+      secret_name = "grafana-tls-secret"
+    }
+  }
+
+  depends_on = [
+    helm_release.grafana,
+    helm_release.ingress-controller,
+  ]
+}
+
+resource "kubernetes_ingress" "selenium3__ingress" {
+
+  wait_for_load_balancer = true
+
+  metadata {
+    name      = "selenium3-grid"
+    namespace = "jenkins"
+
+    annotations = {
+      "kubernetes.io/ingress.class"    = "nginx"
+      "cert-manager.io/cluster-issuer" = "cert-manager"
+    }
+  }
+  spec {
+    rule {
+
+      host = "selenium.${var.dns_zone}"
+
+      http {
+        path {
+          path = "/"
+          backend {
+            service_name = "selenium3-selenium-hub"
+            service_port = 4444
+          }
+        }
+      }
+    }
+
+    tls {
+      secret_name = "selenium3-tls-secret"
+    }
+  }
+
+  depends_on = [
+    helm_release.selenium3_grid,
+    helm_release.ingress-controller,
+  ]
+}
+

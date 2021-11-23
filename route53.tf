@@ -40,3 +40,43 @@ resource "aws_route53_record" "keycloak_cname" {
     helm_release.keycloak,
   ]
 }
+
+resource "aws_route53_record" "grafana_cname" {
+  zone_id = data.aws_route53_zone.vpc.zone_id
+  name    = "grafana.${var.dns_zone}"
+  type    = "CNAME"
+  ttl     = "300"
+  records = [data.kubernetes_service.ingress_nginx.status.0.load_balancer.0.ingress.0.hostname]
+
+  depends_on = [
+    helm_release.ingress-controller,
+    helm_release.grafana,
+  ]
+}
+
+resource "aws_route53_record" "selenium_cname" {
+  zone_id = data.aws_route53_zone.vpc.zone_id
+  name    = "selenium.${var.dns_zone}"
+  type    = "CNAME"
+  ttl     = "300"
+  records = [data.kubernetes_service.ingress_nginx.status.0.load_balancer.0.ingress.0.hostname]
+
+  depends_on = [
+    helm_release.ingress-controller,
+    helm_release.selenium3_grid
+  ]
+}
+
+resource "aws_route53_record" "spinnaker_gate_cname" {
+  zone_id = data.aws_route53_zone.vpc.zone_id
+  name    = "spinnaker-gate.${var.dns_zone}"
+  type    = "CNAME"
+  ttl     = "300"
+  records = [data.kubernetes_service.ingress_nginx.status.0.load_balancer.0.ingress.0.hostname]
+
+  depends_on = [
+    helm_release.ingress-controller,
+    helm_release.spinnaker
+  ]
+}
+

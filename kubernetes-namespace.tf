@@ -48,3 +48,13 @@ resource "kubernetes_namespace" "cert-manager" {
   ]
 }
 
+resource "kubernetes_namespace" "opencloudcx" {
+  metadata {
+    name = "opencloudcx"
+  }
+
+  depends_on = [
+    module.eks,
+  ]
+}
+
