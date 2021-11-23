@@ -4,7 +4,7 @@ resource "aws_kms_key" "eks" {
   enable_key_rotation     = true
 
   tags = {
-    Example    = var.name
+    Example    = local.name
     GithubRepo = "terraform-aws-eks"
     GithubOrg  = "terraform-aws-modules"
   }
