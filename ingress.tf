@@ -39,7 +39,7 @@ resource "kubernetes_ingress" "jenkins_ingress_insecure" {
     name      = "jenkins-insecure"
     namespace = "jenkins"
     annotations = {
-      "kubernetes.io/ingress.class"    = "nginx"
+      "kubernetes.io/ingress.class" = "nginx"
     }
   }
   spec {

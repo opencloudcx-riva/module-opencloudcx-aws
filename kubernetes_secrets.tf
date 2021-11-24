@@ -4,10 +4,10 @@ resource "kubernetes_secret" "grafana_secret" {
     namespace = "opencloudcx"
   }
 
-    data = {
-      username = "admin"
-      password = random_password.grafana_password.result
-    }
+  data = {
+    username = "admin"
+    password = random_password.grafana_password.result
+  }
 
   type = "kubernetes.io/basic-auth"
 
