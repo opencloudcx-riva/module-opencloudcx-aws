@@ -137,7 +137,7 @@ variable "jenkins_helm_chart_version" {
 ###########################################################
 
 ###########################################################
-### jenkins helm information
+### cert_manager helm information
 ###
 
 variable "cert_manager_helm_repo" {
