@@ -1,7 +1,10 @@
 resource "kubernetes_secret" "grafana_secret" {
   metadata {
-    name      = "grafana-admin"
-    namespace = "opencloudcx"
+    name        = "grafana-admin"
+    namespace   = "opencloudcx"
+    labels = {
+      "ConnectOutput"="true"
+    }
   }
 
   data = {
