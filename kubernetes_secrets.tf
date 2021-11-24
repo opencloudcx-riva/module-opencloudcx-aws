@@ -1,4 +1,4 @@
-resource "kubernetes_secret" "grafana_secret" {
+resource "kubernetes_secret" "grafana" {
   metadata {
     name        = "grafana-admin"
     namespace   = "opencloudcx"
@@ -9,7 +9,7 @@ resource "kubernetes_secret" "grafana_secret" {
 
   data = {
     username = "admin"
-    password = random_password.grafana_password.result
+    password = random_password.grafana.result
   }
 
   type = "kubernetes.io/basic-auth"

@@ -9,7 +9,7 @@ data "kubernetes_service" "ingress_nginx" {
   ]
 }
 
-data "kubernetes_service" "k8s_dashboard_ingress" {
+data "kubernetes_service" "k8s_dashboard" {
   metadata {
     name      = "k8s-dashboard-kubernetes-dashboard"
     namespace = "dashboard"
@@ -20,7 +20,7 @@ data "kubernetes_service" "k8s_dashboard_ingress" {
   ]
 }
 
-data "kubernetes_service" "keycloak_ingress" {
+data "kubernetes_service" "keycloak" {
   metadata {
     name      = "keycloak"
     namespace = "spinnaker"
@@ -31,7 +31,7 @@ data "kubernetes_service" "keycloak_ingress" {
   ]
 }
 
-resource "kubernetes_ingress" "jenkins_ingress_insecure" {
+resource "kubernetes_ingress" "jenkins_insecure" {
 
   wait_for_load_balancer = true
 
@@ -65,7 +65,7 @@ resource "kubernetes_ingress" "jenkins_ingress_insecure" {
   ]
 }
 
-resource "kubernetes_ingress" "jenkins_ingress" {
+resource "kubernetes_ingress" "jenkins" {
 
   wait_for_load_balancer = true
 
@@ -104,7 +104,7 @@ resource "kubernetes_ingress" "jenkins_ingress" {
   ]
 }
 
-resource "kubernetes_ingress" "spinnaker_ingress" {
+resource "kubernetes_ingress" "spinnaker" {
 
   wait_for_load_balancer = true
 
@@ -144,7 +144,7 @@ resource "kubernetes_ingress" "spinnaker_ingress" {
   ]
 }
 
-resource "kubernetes_ingress" "spinnaker_gate__ingress" {
+resource "kubernetes_ingress" "spinnaker_gate" {
 
   wait_for_load_balancer = true
 
@@ -184,7 +184,7 @@ resource "kubernetes_ingress" "spinnaker_gate__ingress" {
   ]
 }
 
-resource "kubernetes_ingress" "grafana_ingress" {
+resource "kubernetes_ingress" "grafana" {
 
   wait_for_load_balancer = true
 
@@ -224,7 +224,7 @@ resource "kubernetes_ingress" "grafana_ingress" {
   ]
 }
 
-resource "kubernetes_ingress" "selenium3__ingress" {
+resource "kubernetes_ingress" "selenium3" {
 
   wait_for_load_balancer = true
 

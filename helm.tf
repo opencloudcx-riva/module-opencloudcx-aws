@@ -107,7 +107,7 @@ resource "helm_release" "influxdb" {
 
   set {
     name  = "adminUser.pwd"
-    value = random_password.influx_admin_password.result
+    value = random_password.influx_admin.result
   }
 
   set {
@@ -117,7 +117,7 @@ resource "helm_release" "influxdb" {
 
   set {
     name  = "user.pwd"
-    value = random_password.influx_user_password.result
+    value = random_password.influx_user.result
   }
 
   depends_on = [
@@ -163,7 +163,7 @@ resource "helm_release" "jenkins" {
 
   set {
     name  = "controller.adminPassword"
-    value = random_password.jenkins_password.result
+    value = random_password.jenkins.result
   }
 
   set {
@@ -274,12 +274,12 @@ resource "helm_release" "keycloak" {
 
   set {
     name  = "auth.adminPassword"
-    value = random_password.keycloak_admin_password.result
+    value = random_password.keycloak_admin.result
   }
 
   set {
     name  = "auth.managementPassword"
-    value = random_password.keycloak_user_password.result
+    value = random_password.keycloak_user.result
   }
 
   depends_on = [

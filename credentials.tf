@@ -1,4 +1,4 @@
-resource "kubernetes_service_account" "dashboard_service_account" {
+resource "kubernetes_service_account" "dashboard" {
   metadata {
     name      = "k8s-dashboard-admin"
     namespace = "dashboard"
@@ -7,7 +7,7 @@ resource "kubernetes_service_account" "dashboard_service_account" {
   depends_on = [helm_release.k8s_dashboard]
 }
 
-resource "kubernetes_cluster_role_binding" "dashboard_cluster_role_binding" {
+resource "kubernetes_cluster_role_binding" "dashboard" {
   metadata {
     name = "k8s-dashboard-admin"
   }

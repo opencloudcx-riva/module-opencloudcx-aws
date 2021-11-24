@@ -1,6 +1,6 @@
 locals {
   jenkins_config_script = templatefile("${path.module}/script/jenkins-config.tpl", {
-    jenkinsPassword = random_password.jenkins_password.result
+    jenkinsPassword = random_password.jenkins.result
     dns_zone        = var.dns_zone
     }
   )

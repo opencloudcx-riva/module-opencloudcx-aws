@@ -33,7 +33,7 @@ resource "aws_route53_record" "k8s_dashboard_cname" {
   name    = "dashboard.${var.dns_zone}"
   type    = "CNAME"
   ttl     = "300"
-  records = [data.kubernetes_service.k8s_dashboard_ingress.status.0.load_balancer.0.ingress.0.hostname]
+  records = [data.kubernetes_service.k8s_dashboard.status.0.load_balancer.0.ingress.0.hostname]
 
   depends_on = [
     helm_release.ingress-controller,
@@ -46,7 +46,7 @@ resource "aws_route53_record" "keycloak_cname" {
   name    = "keycloak.${var.dns_zone}"
   type    = "CNAME"
   ttl     = "300"
-  records = [data.kubernetes_service.keycloak_ingress.status.0.load_balancer.0.ingress.0.hostname]
+  records = [data.kubernetes_service.keycloak.status.0.load_balancer.0.ingress.0.hostname]
 
   depends_on = [
     helm_release.ingress-controller,
