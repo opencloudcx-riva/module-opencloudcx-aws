@@ -29,8 +29,9 @@ module "eks" {
     },
   ]
 
-  map_roles = var.map_roles
-  map_users = var.map_users
+  map_roles        = var.map_roles
+  map_users        = var.map_users
+  write_kubeconfig = var.write_kubeconfig
 
   tags = {
     Example    = local.name
