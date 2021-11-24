@@ -18,15 +18,15 @@ resource "kubernetes_namespace" "ingress-nginx" {
   ]
 }
 
-resource "kubernetes_namespace" "dashboard" {
-  metadata {
-    name = "dashboard"
-  }
+# resource "kubernetes_namespace" "dashboard" {
+#   metadata {
+#     name = "dashboard"
+#   }
 
-  depends_on = [
-    module.eks,
-  ]
-}
+#   depends_on = [
+#     module.eks,
+#   ]
+# }
 
 resource "kubernetes_namespace" "jenkins" {
   metadata {

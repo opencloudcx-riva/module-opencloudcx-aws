@@ -105,3 +105,17 @@ resource "aws_route53_record" "spinnaker_cname" {
     helm_release.spinnaker,
   ]
 }
+
+resource "aws_route53_record" "sonarqube_cname" {
+  zone_id = data.aws_route53_zone.vpc.zone_id
+  name    = "sonarqube.${var.dns_zone}"
+  type    = "CNAME"
+  ttl     = "300"
+  records = [data.kubernetes_service.ingress_nginx.status.0.load_balancer.0.ingress.0.hostname]
+
+  depends_on = [
+    helm_release.ingress-controller,
+    helm_release.sonarqube
+  ]
+}
+

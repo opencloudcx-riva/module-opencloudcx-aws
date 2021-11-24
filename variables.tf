@@ -217,9 +217,28 @@ variable "influxdb_helm_repo" {
 }
 
 variable "influxdb_helm_chart_version" {
-  description = "Version for selenium helm chart"
+  description = "Version for InfluxDB helm chart"
   type        = string
   default     = "2.4.1"
+}
+
+###
+###########################################################
+
+###########################################################
+### SonarQube helm information
+###
+
+variable "sonarqube_helm_repo" {
+  description = "A repository url of helm chart to deploy sonarqube"
+  type        = string
+  default     = "https://SonarSource.github.io/helm-chart-sonarqube"
+}
+
+variable "sonarqube_helm_chart_version" {
+  description = "Version for sonarqube helm chart"
+  type        = string
+  default     = "1.2.0+150"
 }
 
 ###

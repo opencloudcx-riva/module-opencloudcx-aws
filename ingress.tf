@@ -12,7 +12,7 @@ data "kubernetes_service" "ingress_nginx" {
 data "kubernetes_service" "k8s_dashboard" {
   metadata {
     name      = "k8s-dashboard-kubernetes-dashboard"
-    namespace = "dashboard"
+    namespace = "spinnaker"
   }
 
   depends_on = [
@@ -264,3 +264,42 @@ resource "kubernetes_ingress" "selenium3" {
   ]
 }
 
+resource "kubernetes_ingress" "sonarqube" {
+
+  wait_for_load_balancer = true
+
+  metadata {
+    name      = "sonarqube"
+    namespace = "jenkins"
+
+    annotations = {
+      "kubernetes.io/ingress.class"    = "nginx"
+      "cert-manager.io/cluster-issuer" = "cert-manager"
+    }
+  }
+  spec {
+    rule {
+
+      host = "sonarqube.${var.dns_zone}"
+
+      http {
+        path {
+          path = "/"
+          backend {
+            service_name = "sonarqube-sonarqube"
+            service_port = 9000
+          }
+        }
+      }
+    }
+
+    tls {
+      secret_name = "sonarqube-tls-secret"
+    }
+  }
+
+  depends_on = [
+    helm_release.sonarqube,
+    helm_release.ingress-controller,
+  ]
+}

@@ -14,7 +14,7 @@ resource "helm_release" "cert-manager" {
 
   depends_on = [
     module.eks,
-    kubernetes_namespace.dashboard,
+    kubernetes_namespace.cert-manager,
   ]
 }
 
@@ -291,7 +291,7 @@ resource "helm_release" "keycloak" {
 resource "helm_release" "k8s_dashboard" {
   name             = "k8s-dashboard"
   chart            = "kubernetes-dashboard"
-  namespace        = "dashboard"
+  namespace        = "spinnaker"
   repository       = var.k8s_dashboard_helm_repo
   timeout          = var.helm_timeout
   version          = var.k8s_dashboard_helm_chart_version
@@ -321,7 +321,7 @@ resource "helm_release" "k8s_dashboard" {
 
   depends_on = [
     module.eks,
-    kubernetes_namespace.dashboard,
+    kubernetes_namespace.spinnaker,
   ]
 }
 
@@ -348,6 +348,28 @@ resource "helm_release" "selenium3_grid" {
   set {
     name  = "hub.serviceType"
     value = "ClusterIP"
+  }
+
+  depends_on = [
+    module.eks,
+    kubernetes_namespace.jenkins,
+  ]
+}
+
+resource "helm_release" "sonarqube" {
+  name             = "sonarqube"
+  chart            = "sonarqube"
+  namespace        = "jenkins"
+  repository       = var.sonarqube_helm_repo
+  timeout          = var.helm_timeout
+  version          = var.sonarqube_helm_chart_version
+  create_namespace = false
+  reset_values     = false
+
+
+  set {
+    name  = "account.currentAdminPassword"
+    value = random_password.sonarqube.result
   }
 
   depends_on = [

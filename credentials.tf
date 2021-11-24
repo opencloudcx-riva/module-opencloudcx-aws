@@ -1,7 +1,7 @@
 resource "kubernetes_service_account" "dashboard" {
   metadata {
     name      = "k8s-dashboard-admin"
-    namespace = "dashboard"
+    namespace = "spinnaker"
   }
 
   depends_on = [helm_release.k8s_dashboard]
@@ -21,6 +21,6 @@ resource "kubernetes_cluster_role_binding" "dashboard" {
   subject {
     kind      = "ServiceAccount"
     name      = "k8s-dashboard-admin"
-    namespace = "dashboard"
+    namespace = "spinnaker"
   }
 }
