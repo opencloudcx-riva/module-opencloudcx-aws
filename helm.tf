@@ -366,7 +366,6 @@ resource "helm_release" "sonarqube" {
   create_namespace = false
   reset_values     = false
 
-
   set {
     name  = "account.adminPassword"
     value = random_password.sonarqube.result
@@ -439,3 +438,29 @@ resource "helm_release" "spinnaker" {
   ]
 }
 
+resource "helm_release" "prometheus" {
+  name             = "prometheus"
+  chart            = "prometheus"
+  namespace        = "opencloudcx"
+  repository       = var.prometheus_helm_repo
+  timeout          = var.helm_timeout
+  version          = var.prometheus_helm_chart_version
+  create_namespace = false
+  reset_values     = false
+
+  set {
+    name  = "alertmanager.persistentVolume.storageClass"
+    value = "gp2"
+  }
+
+  set {
+    name  = "server.persistentVolume.storageClass"
+    value = "gp2"
+  }
+
+  depends_on = [
+    module.eks,
+    kubernetes_namespace.opencloudcx,
+  ]
+
+}
