@@ -368,7 +368,7 @@ resource "helm_release" "sonarqube" {
 
 
   set {
-    name  = "account.currentAdminPassword"
+    name  = "account.adminPassword"
     value = random_password.sonarqube.result
   }
 
