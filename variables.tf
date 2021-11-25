@@ -21,7 +21,7 @@ variable "dns_zone" {
 }
 
 variable "helm_timeout" {
-  description = "Timeout value to wailt for helm chat deployment"
+  description = "Timeout value to wait for helm chart deployment"
   type        = number
   default     = 600
 }
