@@ -21,14 +21,7 @@ module "eks" {
     }
   ]
 
-  worker_groups = [
-    {
-      name                 = "worker-group-1"
-      instance_type        = "m5.large"
-      asg_desired_capacity = 3
-    },
-  ]
-
+  worker_groups    = var.worker_groups
   map_roles        = var.map_roles
   map_users        = var.map_users
   write_kubeconfig = var.write_kubeconfig

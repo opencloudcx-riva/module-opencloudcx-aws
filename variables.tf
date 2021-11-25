@@ -53,6 +53,14 @@ variable "map_users" {
   default = []
 }
 
+variable "worker_groups" {
+  type = list(object({
+    name                 = string
+    instance_type        = string
+    asg_desired_capacity = number
+  }))
+}
+
 variable "cluster_delete_timeout" {
   description = "Timeout value when deleting the EKS cluster."
   type        = string
@@ -239,6 +247,25 @@ variable "sonarqube_helm_chart_version" {
   description = "Version for sonarqube helm chart"
   type        = string
   default     = "1.2.0+150"
+}
+
+###
+###########################################################
+
+###########################################################
+### Prometheus helm information
+###
+
+variable "prometheus_helm_repo" {
+  description = "A repository url of helm chart to deploy prometheus"
+  type        = string
+  default     = "https://prometheus-community.github.io/helm-charts"
+}
+
+variable "prometheus_helm_chart_version" {
+  description = "Version for prometheus helm chart"
+  type        = string
+  default     = "14.12.0"
 }
 
 ###
