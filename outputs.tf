@@ -17,3 +17,34 @@ output "aws_eks_cluster" {
 output "vpc_id" {
   value = module.vpc.vpc_id
 }
+
+data "kubernetes_secret" "grafana_admin" {
+  metadata {
+    name      = "grafana-admin"
+    namespace = "opencloudcx"
+  }
+
+  depends_on = [
+    module.eks
+  ]
+}
+
+output "grafana_secret" {
+  value = data.kubernetes_secret.grafana_admin.data
+}
+
+data "kubernetes_secret" "jenkins" {
+  metadata {
+    name      = "jenkins"
+    namespace = "develop"
+  }
+
+  depends_on = [
+    module.eks
+  ]
+}
+
+output "jenkins_secret" {
+  value = data.kubernetes_secret.jenkins.data
+}
+
