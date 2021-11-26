@@ -29,3 +29,8 @@ output "jenkins_secret" {
 output "jenkins_url" {
   value = "jenkins-insecure.${var.dns_zone}"
 }
+
+output "spinnaker_gate_url" {
+  value = "spinnaker-gate.${var.dns_zone}"
+}
+
