@@ -20,6 +20,31 @@ resource "kubernetes_secret" "grafana" {
   ]
 }
 
+resource "kubernetes_secret" "dockerhub" {
+  metadata {
+    name      = var.kubernetes_dockerhub_secret_name
+    namespace = "jenkins"
+  }
+
+  data = {
+
+    ".dockerconfigjson" = jsonencode({
+      auths = {
+        "${var.kubernetes_dockerhub_secret_repository_url}" = {
+          auth = "${base64encode("${var.kubernetes_secret_dockerhub_username}:${var.kubernetes_secret_dockerhub_password}")}"
+        }
+      }
+    })
+  }
+
+  type = "kubernetes.io/dockerconfigjson"
+
+  depends_on = [
+    module.eks,
+    kubernetes_namespace.opencloudcx,
+  ]
+}
+
 resource "kubernetes_secret" "sonarqube" {
   metadata {
     name      = "sonarqube-admin"
