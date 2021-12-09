@@ -138,7 +138,7 @@ variable "jenkins_helm_repo" {
 variable "jenkins_helm_chart_version" {
   description = "Helm chart version for jenkins"
   type        = string
-  default     = "3.8.8"
+  default     = "3.9.3"
 }
 
 ###
