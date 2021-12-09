@@ -27,9 +27,10 @@ module "eks" {
   write_kubeconfig = var.write_kubeconfig
 
   tags = {
-    Example    = local.name
-    GithubRepo = "terraform-aws-eks"
-    GithubOrg  = "terraform-aws-modules"
+    Example     = local.name
+    GithubRepo  = "terraform-aws-eks"
+    GithubOrg   = "terraform-aws-modules"
+    environment = var.stack
   }
 }
 
