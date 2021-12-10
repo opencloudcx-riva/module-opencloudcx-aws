@@ -20,6 +20,12 @@ variable "dns_zone" {
   default = "opencloudcx.internal"
 }
 
+variable "additional_namespaces" {
+  description = "Additional namespaces to create in cluster"
+  type        = list(string)
+  default     = []
+}
+
 variable "helm_timeout" {
   description = "Timeout value to wait for helm chart deployment"
   type        = number
