@@ -34,7 +34,7 @@ locals {
   suffix             = random_string.scope.result
   artifact-repo-name = join("-", compact(["artifact", var.stack, local.suffix]))
   region             = var.region
-  name               = var.name
+  name               = format("%s-%s", var.name, var.stack)
   cluster_version    = var.cluster_version
 
   name-tag               = { "Name" = local.name }
