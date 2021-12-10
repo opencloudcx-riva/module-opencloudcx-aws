@@ -2,7 +2,7 @@
 ## Jenkins 
 
 resource "aws_secretsmanager_secret" "jenkins" {
-  name                    = "${random_string.scope.id}-jenkins"
+  name                    = "${random_string.scope.id}-${var.stack}-jenkins"
   recovery_window_in_days = 0
 }
 
@@ -21,7 +21,7 @@ resource "aws_secretsmanager_secret_version" "jenkins" {
 ## Portainer
 
 resource "aws_secretsmanager_secret" "portainer" {
-  name                    = "${random_string.scope.id}-portainer"
+  name                    = "${random_string.scope.id}-${var.stack}-portainer"
   recovery_window_in_days = 0
 }
 
@@ -40,7 +40,7 @@ resource "aws_secretsmanager_secret_version" "portainer" {
 ## Sonarqube
 
 resource "aws_secretsmanager_secret" "sonarqube" {
-  name                    = "${random_string.scope.id}-sonarqube"
+  name                    = "${random_string.scope.id}-${var.stack}-sonarqube"
   recovery_window_in_days = 0
 }
 
@@ -59,7 +59,7 @@ resource "aws_secretsmanager_secret_version" "sonarqube" {
 ## Keycloak
 
 resource "aws_secretsmanager_secret" "keycloak_admin" {
-  name                    = "${random_string.scope.id}-keycloak-admin"
+  name                    = "${random_string.scope.id}-${var.stack}-keycloak-admin"
   recovery_window_in_days = 0
 }
 
@@ -75,7 +75,7 @@ resource "aws_secretsmanager_secret_version" "keycloak_admin" {
 }
 
 resource "aws_secretsmanager_secret" "keycloak_user" {
-  name                    = "${random_string.scope.id}-keycloak-user"
+  name                    = "${random_string.scope.id}-${var.stack}-keycloak-user"
   recovery_window_in_days = 0
 }
 
@@ -94,7 +94,7 @@ resource "aws_secretsmanager_secret_version" "keycloak_user_secret_version" {
 ## Grafana 
 
 resource "aws_secretsmanager_secret" "grafana" {
-  name                    = "${random_string.scope.id}-grafana"
+  name                    = "${random_string.scope.id}-${var.stack}-grafana"
   recovery_window_in_days = 0
 }
 
@@ -113,7 +113,7 @@ resource "aws_secretsmanager_secret_version" "grafana" {
 ## Influxdb
 
 resource "aws_secretsmanager_secret" "influx_admin" {
-  name                    = "${random_string.scope.id}-influx-admin"
+  name                    = "${random_string.scope.id}-${var.stack}-influx-admin"
   recovery_window_in_days = 0
 }
 
@@ -129,7 +129,7 @@ resource "aws_secretsmanager_secret_version" "influx_admin" {
 }
 
 resource "aws_secretsmanager_secret" "influx_user" {
-  name                    = "${random_string.scope.id}-influx-user"
+  name                    = "${random_string.scope.id}-${var.stack}-influx-user"
   recovery_window_in_days = 0
 }
 
