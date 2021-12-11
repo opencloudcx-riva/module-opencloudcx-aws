@@ -13,7 +13,6 @@ module "eks" {
   cluster_endpoint_private_access = true
   cluster_endpoint_public_access  = true
 
-
   cluster_encryption_config = [
     {
       provider_key_arn = aws_kms_key.eks.arn
@@ -27,10 +26,10 @@ module "eks" {
   write_kubeconfig = var.write_kubeconfig
 
   tags = {
-    Example     = local.name
-    GithubRepo  = "terraform-aws-eks"
-    GithubOrg   = "terraform-aws-modules"
-    environment = var.stack
+    Example    = local.name
+    GithubRepo = "terraform-aws-eks"
+    GithubOrg  = "terraform-aws-modules"
+    stack      = var.stack
   }
 }
 
