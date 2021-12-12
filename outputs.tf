@@ -27,10 +27,10 @@ output "jenkins_secret" {
 }
 
 output "jenkins_url" {
-  value = "jenkins-insecure.${var.dns_zone}"
+  value = "jenkins-insecure.${local.full_dns_zone}"
 }
 
 output "spinnaker_gate_url" {
-  value = "spinnaker-gate.${var.dns_zone}"
+  value = "spinnaker-gate.${local.full_dns_zone}"
 }
 

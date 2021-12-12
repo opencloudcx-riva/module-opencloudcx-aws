@@ -45,7 +45,7 @@ resource "kubernetes_ingress" "jenkins_insecure" {
   spec {
     rule {
 
-      host = "jenkins-insecure.${var.dns_zone}"
+      host = "jenkins-insecure.${local.full_dns_zone}"
 
       http {
         path {
@@ -80,7 +80,7 @@ resource "kubernetes_ingress" "jenkins" {
   spec {
     rule {
 
-      host = "jenkins.${var.dns_zone}"
+      host = "jenkins.${local.full_dns_zone}"
 
       http {
         path {
@@ -120,7 +120,7 @@ resource "kubernetes_ingress" "spinnaker" {
   spec {
     rule {
 
-      host = "spinnaker.${var.dns_zone}"
+      host = "spinnaker.${local.full_dns_zone}"
 
       http {
         path {
@@ -160,7 +160,7 @@ resource "kubernetes_ingress" "spinnaker_gate" {
   spec {
     rule {
 
-      host = "spinnaker-gate.${var.dns_zone}"
+      host = "spinnaker-gate.${local.full_dns_zone}"
 
       http {
         path {
@@ -200,7 +200,7 @@ resource "kubernetes_ingress" "grafana" {
   spec {
     rule {
 
-      host = "grafana.${var.dns_zone}"
+      host = "grafana.${local.full_dns_zone}"
 
       http {
         path {
@@ -240,7 +240,7 @@ resource "kubernetes_ingress" "selenium3" {
   spec {
     rule {
 
-      host = "selenium.${var.dns_zone}"
+      host = "selenium.${local.full_dns_zone}"
 
       http {
         path {
@@ -280,7 +280,7 @@ resource "kubernetes_ingress" "sonarqube" {
   spec {
     rule {
 
-      host = "sonarqube.${var.dns_zone}"
+      host = "sonarqube.${local.full_dns_zone}"
 
       http {
         path {

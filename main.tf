@@ -44,6 +44,8 @@ locals {
   private-route-name-tag = { "Name" = join("-", compact([local.name, "private-route"])) }
   private-dns-name-tag   = { "Name" = join("-", compact([local.name, "private-dns"])) }
 
+  full_dns_zone = format("%s.%s", var.stack, var.dns_zone)
+
   # kubernetes tags
   vpc-k8s-shared-tag = {
     format("kubernetes.io/cluster/%s", local.name) = "shared"

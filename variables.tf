@@ -20,6 +20,11 @@ variable "dns_zone" {
   default = "opencloudcx.internal"
 }
 
+variable "full_dns_zone" {
+  type    = string
+  default = "stack.opencloudcx.internal"
+}
+
 variable "additional_namespaces" {
   description = "Additional namespaces to create in cluster"
   type        = list(string)
