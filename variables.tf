@@ -31,6 +31,12 @@ variable "additional_namespaces" {
   default     = []
 }
 
+variable "ecr_repos" {
+  description = "ECR repositories to create"
+  type        = list(string)
+  default     = []
+}
+
 variable "helm_timeout" {
   description = "Timeout value to wait for helm chart deployment"
   type        = number

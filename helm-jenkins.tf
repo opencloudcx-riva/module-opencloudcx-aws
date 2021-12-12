@@ -1,5 +1,5 @@
 locals {
-  jenkins_jcasc_script = templatefile("${path.module}/script/jenkins-JCasC.tpl", {
+  jenkins_jcasc_script = templatefile("${path.module}/script/jenkins-JCasC-jenkins.tpl", {
     # dns_zone        = local.full_dns_zone
     }
   )
