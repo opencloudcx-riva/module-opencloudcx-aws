@@ -209,36 +209,36 @@ resource "helm_release" "k8s_dashboard" {
   ]
 }
 
-resource "helm_release" "selenium3_grid" {
-  name             = "selenium3"
-  chart            = "selenium3"
-  namespace        = "jenkins"
-  repository       = var.selenium_helm_repo
-  timeout          = var.helm_timeout
-  version          = var.selenium_helm_chart_version
-  create_namespace = false
-  reset_values     = false
+# resource "helm_release" "selenium3_grid" {
+#   name             = "selenium3"
+#   chart            = "selenium3"
+#   namespace        = "jenkins"
+#   repository       = var.selenium_helm_repo
+#   timeout          = var.helm_timeout
+#   version          = var.selenium_helm_chart_version
+#   create_namespace = false
+#   reset_values     = false
 
-  set {
-    name  = "firefox.enabled"
-    value = "true"
-  }
+#   set {
+#     name  = "firefox.enabled"
+#     value = "true"
+#   }
 
-  set {
-    name  = "chrome.enabled"
-    value = "true"
-  }
+#   set {
+#     name  = "chrome.enabled"
+#     value = "true"
+#   }
 
-  set {
-    name  = "hub.serviceType"
-    value = "ClusterIP"
-  }
+#   set {
+#     name  = "hub.serviceType"
+#     value = "ClusterIP"
+#   }
 
-  depends_on = [
-    module.eks,
-    kubernetes_namespace.jenkins,
-  ]
-}
+#   depends_on = [
+#     module.eks,
+#     kubernetes_namespace.jenkins,
+#   ]
+# }
 
 resource "helm_release" "sonarqube" {
   name             = "sonarqube"
