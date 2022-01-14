@@ -105,6 +105,23 @@ variable "cidr" {
   default = "10.0.0.0/16"
 }
 
+variable "aws_certificate_arn" {
+  description = "AWS SSL certificate ARN"
+  type        = string
+}
+
+variable "aws_certificate_cname" {
+  type = string
+}
+
+variable "aws_certificate_cname_value" {
+  type = string
+}
+
+
+
+
+
 ###########################################################
 ### Spinnaker helm information
 ###
@@ -328,9 +345,4 @@ variable "kubernetes_dockerhub_secret_repository_url" {
   type        = string
   default     = "https://index.docker.io/v1/"
 }
-
-
-
-
-
 
