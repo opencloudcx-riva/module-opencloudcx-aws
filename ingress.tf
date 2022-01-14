@@ -73,8 +73,9 @@ resource "kubernetes_ingress" "jenkins" {
     name      = "jenkins-reverse-proxy"
     namespace = "jenkins"
     annotations = {
-      "kubernetes.io/ingress.class"    = "nginx"
-      "cert-manager.io/cluster-issuer" = "cert-manager"
+      "kubernetes.io/ingress.allow-http" = "false"
+      "kubernetes.io/ingress.class"      = "nginx"
+      "cert-manager.io/cluster-issuer"   = "cert-manager"
     }
   }
   spec {
@@ -113,8 +114,9 @@ resource "kubernetes_ingress" "spinnaker" {
     namespace = "spinnaker"
 
     annotations = {
-      "kubernetes.io/ingress.class"    = "nginx"
-      "cert-manager.io/cluster-issuer" = "cert-manager"
+      "kubernetes.io/ingress.allow-http" = "false"
+      "kubernetes.io/ingress.class"      = "nginx"
+      "cert-manager.io/cluster-issuer"   = "cert-manager"
     }
   }
   spec {
@@ -153,8 +155,9 @@ resource "kubernetes_ingress" "spinnaker_gate" {
     namespace = "spinnaker"
 
     annotations = {
-      "kubernetes.io/ingress.class"    = "nginx"
-      "cert-manager.io/cluster-issuer" = "cert-manager"
+      "kubernetes.io/ingress.allow-http" = "false"
+      "kubernetes.io/ingress.class"      = "nginx"
+      "cert-manager.io/cluster-issuer"   = "cert-manager"
     }
   }
   spec {
@@ -193,8 +196,10 @@ resource "kubernetes_ingress" "grafana" {
     namespace = "opencloudcx"
 
     annotations = {
-      "kubernetes.io/ingress.class"    = "nginx"
-      "cert-manager.io/cluster-issuer" = "cert-manager"
+      "kubernetes.io/ingress.allow-http"            = "false"
+      "kubernetes.io/ingress.class"                 = "nginx"
+      "cert-manager.io/cluster-issuer"              = "cert-manager"
+      "nginx.ingress.kubernetes.io/certificate-arn" = var.aws_certificate_arn
     }
   }
   spec {
@@ -224,7 +229,7 @@ resource "kubernetes_ingress" "grafana" {
   ]
 }
 
-resource "kubernetes_ingress" "selenium3" {
+/*resource "kubernetes_ingress" "selenium3" {
 
   wait_for_load_balancer = true
 
@@ -262,7 +267,7 @@ resource "kubernetes_ingress" "selenium3" {
     helm_release.selenium3_grid,
     helm_release.ingress-controller,
   ]
-}
+}*/
 
 resource "kubernetes_ingress" "sonarqube" {
 
@@ -273,8 +278,9 @@ resource "kubernetes_ingress" "sonarqube" {
     namespace = "jenkins"
 
     annotations = {
-      "kubernetes.io/ingress.class"    = "nginx"
-      "cert-manager.io/cluster-issuer" = "cert-manager"
+      "kubernetes.io/ingress.allow-http" = "false"
+      "kubernetes.io/ingress.class"      = "nginx"
+      "cert-manager.io/cluster-issuer"   = "cert-manager"
     }
   }
   spec {
@@ -295,6 +301,40 @@ resource "kubernetes_ingress" "sonarqube" {
 
     tls {
       secret_name = "sonarqube-tls-secret"
+    }
+  }
+
+  depends_on = [
+    helm_release.sonarqube,
+    helm_release.ingress-controller,
+  ]
+}
+
+resource "kubernetes_ingress" "sonarqube_insecure" {
+
+  wait_for_load_balancer = true
+
+  metadata {
+    name      = "sonarqube-insecure"
+    namespace = "jenkins"
+    annotations = {
+      "kubernetes.io/ingress.class" = "nginx"
+    }
+  }
+  spec {
+    rule {
+
+      host = "sonarqube-insecure.${local.full_dns_zone}"
+
+      http {
+        path {
+          path = "/"
+          backend {
+            service_name = "sonarqube-sonarqube"
+            service_port = 9000
+          }
+        }
+      }
     }
   }
 
