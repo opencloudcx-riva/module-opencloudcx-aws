@@ -56,18 +56,18 @@ resource "aws_route53_record" "jenkins_insecure_cname" {
   ]
 }
 
-resource "aws_route53_record" "sonarqube_insecure_cname" {
-  zone_id = aws_route53_zone.sub_domain.zone_id
-  name    = "sonarqube-insecure.${local.full_dns_zone}"
-  type    = "CNAME"
-  ttl     = "300"
-  records = [data.kubernetes_service.ingress_nginx.status.0.load_balancer.0.ingress.0.hostname]
+# resource "aws_route53_record" "sonarqube_insecure_cname" {
+#   zone_id = aws_route53_zone.sub_domain.zone_id
+#   name    = "sonarqube-insecure.${local.full_dns_zone}"
+#   type    = "CNAME"
+#   ttl     = "300"
+#   records = [data.kubernetes_service.ingress_nginx.status.0.load_balancer.0.ingress.0.hostname]
 
-  depends_on = [
-    helm_release.ingress-controller,
-    helm_release.sonarqube,
-  ]
-}
+#   depends_on = [
+#     helm_release.ingress-controller,
+#     helm_release.sonarqube,
+#   ]
+# }
 
 resource "aws_route53_record" "k8s_dashboard_cname" {
   zone_id = aws_route53_zone.sub_domain.zone_id

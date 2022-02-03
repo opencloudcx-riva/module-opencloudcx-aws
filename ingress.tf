@@ -229,46 +229,6 @@ resource "kubernetes_ingress" "grafana" {
   ]
 }
 
-/*resource "kubernetes_ingress" "selenium3" {
-
-  wait_for_load_balancer = true
-
-  metadata {
-    name      = "selenium3-grid"
-    namespace = "jenkins"
-
-    annotations = {
-      "kubernetes.io/ingress.class"    = "nginx"
-      "cert-manager.io/cluster-issuer" = "cert-manager"
-    }
-  }
-  spec {
-    rule {
-
-      host = "selenium.${local.full_dns_zone}"
-
-      http {
-        path {
-          path = "/"
-          backend {
-            service_name = "selenium3-selenium-hub"
-            service_port = 4444
-          }
-        }
-      }
-    }
-
-    tls {
-      secret_name = "selenium3-tls-secret"
-    }
-  }
-
-  depends_on = [
-    helm_release.selenium3_grid,
-    helm_release.ingress-controller,
-  ]
-}*/
-
 resource "kubernetes_ingress" "sonarqube" {
 
   wait_for_load_balancer = true
@@ -301,40 +261,6 @@ resource "kubernetes_ingress" "sonarqube" {
 
     tls {
       secret_name = "sonarqube-tls-secret"
-    }
-  }
-
-  depends_on = [
-    helm_release.sonarqube,
-    helm_release.ingress-controller,
-  ]
-}
-
-resource "kubernetes_ingress" "sonarqube_insecure" {
-
-  wait_for_load_balancer = true
-
-  metadata {
-    name      = "sonarqube-insecure"
-    namespace = "jenkins"
-    annotations = {
-      "kubernetes.io/ingress.class" = "nginx"
-    }
-  }
-  spec {
-    rule {
-
-      host = "sonarqube-insecure.${local.full_dns_zone}"
-
-      http {
-        path {
-          path = "/"
-          backend {
-            service_name = "sonarqube-sonarqube"
-            service_port = 9000
-          }
-        }
-      }
     }
   }
 
