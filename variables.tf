@@ -105,10 +105,10 @@ variable "cidr" {
   default = "10.0.0.0/16"
 }
 
-variable "aws_certificate_arn" {
-  description = "AWS SSL certificate ARN"
-  type        = string
-}
+# variable "aws_certificate_arn" {
+#   description = "AWS SSL certificate ARN"
+#   type        = string
+# }
 
 variable "aws_certificate_cname" {
   type = string

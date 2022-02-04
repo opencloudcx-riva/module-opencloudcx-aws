@@ -199,7 +199,7 @@ resource "kubernetes_ingress" "grafana" {
       "kubernetes.io/ingress.allow-http"            = "false"
       "kubernetes.io/ingress.class"                 = "nginx"
       "cert-manager.io/cluster-issuer"              = "cert-manager"
-      "nginx.ingress.kubernetes.io/certificate-arn" = var.aws_certificate_arn
+      # "nginx.ingress.kubernetes.io/certificate-arn" = var.aws_certificate_arn
     }
   }
   spec {
