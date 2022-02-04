@@ -45,7 +45,7 @@ resource "kubernetes_ingress" "jenkins_insecure" {
   spec {
     rule {
 
-      host = "jenkins-insecure.${var.dns_zone}"
+      host = "jenkins-insecure.${local.full_dns_zone}"
 
       http {
         path {
@@ -73,14 +73,15 @@ resource "kubernetes_ingress" "jenkins" {
     name      = "jenkins-reverse-proxy"
     namespace = "jenkins"
     annotations = {
-      "kubernetes.io/ingress.class"    = "nginx"
-      "cert-manager.io/cluster-issuer" = "cert-manager"
+      "kubernetes.io/ingress.allow-http" = "false"
+      "kubernetes.io/ingress.class"      = "nginx"
+      "cert-manager.io/cluster-issuer"   = "cert-manager"
     }
   }
   spec {
     rule {
 
-      host = "jenkins.${var.dns_zone}"
+      host = "jenkins.${local.full_dns_zone}"
 
       http {
         path {
@@ -113,14 +114,15 @@ resource "kubernetes_ingress" "spinnaker" {
     namespace = "spinnaker"
 
     annotations = {
-      "kubernetes.io/ingress.class"    = "nginx"
-      "cert-manager.io/cluster-issuer" = "cert-manager"
+      "kubernetes.io/ingress.allow-http" = "false"
+      "kubernetes.io/ingress.class"      = "nginx"
+      "cert-manager.io/cluster-issuer"   = "cert-manager"
     }
   }
   spec {
     rule {
 
-      host = "spinnaker.${var.dns_zone}"
+      host = "spinnaker.${local.full_dns_zone}"
 
       http {
         path {
@@ -153,14 +155,15 @@ resource "kubernetes_ingress" "spinnaker_gate" {
     namespace = "spinnaker"
 
     annotations = {
-      "kubernetes.io/ingress.class"    = "nginx"
-      "cert-manager.io/cluster-issuer" = "cert-manager"
+      "kubernetes.io/ingress.allow-http" = "false"
+      "kubernetes.io/ingress.class"      = "nginx"
+      "cert-manager.io/cluster-issuer"   = "cert-manager"
     }
   }
   spec {
     rule {
 
-      host = "spinnaker-gate.${var.dns_zone}"
+      host = "spinnaker-gate.${local.full_dns_zone}"
 
       http {
         path {
@@ -193,14 +196,16 @@ resource "kubernetes_ingress" "grafana" {
     namespace = "opencloudcx"
 
     annotations = {
-      "kubernetes.io/ingress.class"    = "nginx"
-      "cert-manager.io/cluster-issuer" = "cert-manager"
+      "kubernetes.io/ingress.allow-http"            = "false"
+      "kubernetes.io/ingress.class"                 = "nginx"
+      "cert-manager.io/cluster-issuer"              = "cert-manager"
+      "nginx.ingress.kubernetes.io/certificate-arn" = var.aws_certificate_arn
     }
   }
   spec {
     rule {
 
-      host = "grafana.${var.dns_zone}"
+      host = "grafana.${local.full_dns_zone}"
 
       http {
         path {
@@ -224,46 +229,6 @@ resource "kubernetes_ingress" "grafana" {
   ]
 }
 
-resource "kubernetes_ingress" "selenium3" {
-
-  wait_for_load_balancer = true
-
-  metadata {
-    name      = "selenium3-grid"
-    namespace = "jenkins"
-
-    annotations = {
-      "kubernetes.io/ingress.class"    = "nginx"
-      "cert-manager.io/cluster-issuer" = "cert-manager"
-    }
-  }
-  spec {
-    rule {
-
-      host = "selenium.${var.dns_zone}"
-
-      http {
-        path {
-          path = "/"
-          backend {
-            service_name = "selenium3-selenium-hub"
-            service_port = 4444
-          }
-        }
-      }
-    }
-
-    tls {
-      secret_name = "selenium3-tls-secret"
-    }
-  }
-
-  depends_on = [
-    helm_release.selenium3_grid,
-    helm_release.ingress-controller,
-  ]
-}
-
 resource "kubernetes_ingress" "sonarqube" {
 
   wait_for_load_balancer = true
@@ -273,14 +238,15 @@ resource "kubernetes_ingress" "sonarqube" {
     namespace = "jenkins"
 
     annotations = {
-      "kubernetes.io/ingress.class"    = "nginx"
-      "cert-manager.io/cluster-issuer" = "cert-manager"
+      "kubernetes.io/ingress.allow-http" = "false"
+      "kubernetes.io/ingress.class"      = "nginx"
+      "cert-manager.io/cluster-issuer"   = "cert-manager"
     }
   }
   spec {
     rule {
 
-      host = "sonarqube.${var.dns_zone}"
+      host = "sonarqube.${local.full_dns_zone}"
 
       http {
         path {
