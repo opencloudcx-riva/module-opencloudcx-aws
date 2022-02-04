@@ -110,13 +110,13 @@ variable "cidr" {
 #   type        = string
 # }
 
-variable "aws_certificate_cname" {
-  type = string
-}
+# variable "aws_certificate_cname" {
+#   type = string
+# }
 
-variable "aws_certificate_cname_value" {
-  type = string
-}
+# variable "aws_certificate_cname_value" {
+#   type = string
+# }
 
 
 
