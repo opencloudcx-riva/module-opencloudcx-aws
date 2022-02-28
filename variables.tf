@@ -20,6 +20,23 @@ variable "dns_zone" {
   default = "opencloudcx.internal"
 }
 
+variable "full_dns_zone" {
+  type    = string
+  default = "stack.opencloudcx.internal"
+}
+
+variable "additional_namespaces" {
+  description = "Additional namespaces to create in cluster"
+  type        = list(string)
+  default     = []
+}
+
+variable "ecr_repos" {
+  description = "ECR repositories to create"
+  type        = list(string)
+  default     = []
+}
+
 variable "helm_timeout" {
   description = "Timeout value to wait for helm chart deployment"
   type        = number
@@ -72,6 +89,38 @@ variable "write_kubeconfig" {
   type        = bool
   default     = true
 }
+
+variable "private_subnets" {
+  type    = list(string)
+  default = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
+}
+
+variable "public_subnets" {
+  type    = list(string)
+  default = ["10.0.4.0/24", "10.0.5.0/24", "10.0.6.0/24"]
+}
+
+variable "cidr" {
+  type    = string
+  default = "10.0.0.0/16"
+}
+
+# variable "aws_certificate_arn" {
+#   description = "AWS SSL certificate ARN"
+#   type        = string
+# }
+
+# variable "aws_certificate_cname" {
+#   type = string
+# }
+
+# variable "aws_certificate_cname_value" {
+#   type = string
+# }
+
+
+
+
 
 ###########################################################
 ### Spinnaker helm information
@@ -138,7 +187,7 @@ variable "jenkins_helm_repo" {
 variable "jenkins_helm_chart_version" {
   description = "Helm chart version for jenkins"
   type        = string
-  default     = "3.8.8"
+  default     = "3.9.3"
 }
 
 ###
@@ -296,9 +345,4 @@ variable "kubernetes_dockerhub_secret_repository_url" {
   type        = string
   default     = "https://index.docker.io/v1/"
 }
-
-
-
-
-
 

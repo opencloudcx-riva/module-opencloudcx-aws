@@ -1,3 +1,14 @@
+resource "kubernetes_namespace" "extra" {
+  count = length(var.additional_namespaces)
+  metadata {
+    name = var.additional_namespaces[count.index]
+  }
+
+  depends_on = [
+    module.eks,
+  ]
+}
+
 resource "kubernetes_namespace" "spinnaker" {
   metadata {
     name = "spinnaker"

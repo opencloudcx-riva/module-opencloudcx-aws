@@ -1,5 +1,3 @@
-
-
 provider "kubernetes" {
   host                   = data.aws_eks_cluster.cluster.endpoint
   token                  = data.aws_eks_cluster_auth.cluster.token
@@ -34,7 +32,7 @@ locals {
   suffix             = random_string.scope.result
   artifact-repo-name = join("-", compact(["artifact", var.stack, local.suffix]))
   region             = var.region
-  name               = var.name
+  name               = format("%s-%s", var.name, var.stack)
   cluster_version    = var.cluster_version
 
   name-tag               = { "Name" = local.name }
@@ -45,6 +43,8 @@ locals {
   public-route-name-tag  = { "Name" = join("-", compact([local.name, "public-route"])) }
   private-route-name-tag = { "Name" = join("-", compact([local.name, "private-route"])) }
   private-dns-name-tag   = { "Name" = join("-", compact([local.name, "private-dns"])) }
+
+  full_dns_zone = format("%s.%s", var.stack, var.dns_zone)
 
   # kubernetes tags
   vpc-k8s-shared-tag = {
