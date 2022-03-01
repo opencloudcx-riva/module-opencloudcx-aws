@@ -141,10 +141,10 @@ resource "helm_release" "jenkins" {
     value = local.jenkins_jcasc_tool_script
   }
 
-  set {
-    name  = "controller.JCasC.configScripts.unclassified"
-    value = local.jenkins_jcasc_unclassified_script
-  }
+  # set {
+  #   name  = "controller.JCasC.configScripts.unclassified"
+  #   value = local.jenkins_jcasc_unclassified_script
+  # }
 
   depends_on = [
     module.eks,
