@@ -116,6 +116,11 @@ resource "helm_release" "jenkins" {
   }
 
   set {
+    name  = "controller.installPlugins[15]"
+    value = "sonar:2.14"
+  }
+
+  set {
     name  = "controller.JCasC.enabled"
     value = "true"
   }
