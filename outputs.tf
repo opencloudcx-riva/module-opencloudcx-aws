@@ -34,6 +34,6 @@ output "spinnaker_gate_url" {
   value = "spinnaker-gate.${local.full_dns_zone}"
 }
 
-output "sonarqube_key" {
-  value = sonarqube_webhook.webhook.id
-}
+# output "sonarqube_key" {
+#   value = sonarqube_webhook.webhook.id
+# }
