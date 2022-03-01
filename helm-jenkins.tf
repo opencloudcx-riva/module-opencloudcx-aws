@@ -3,6 +3,12 @@ locals {
     # dns_zone        = local.full_dns_zone
     }
   )
+  jenkins_jcasc_tool_script = templatefile("${path.module}/script/jenkins-JCasC-tool.tpl", {
+    }
+  )
+  jenkins_jcasc_unclassified_script = templatefile("${path.module}/script/jenkins-JCasC-unclassified.tpl", {
+    }
+  )
 }
 
 resource "helm_release" "jenkins" {
@@ -128,6 +134,16 @@ resource "helm_release" "jenkins" {
   set {
     name  = "controller.JCasC.configScripts.jenkins"
     value = local.jenkins_jcasc_script
+  }
+
+  set {
+    name  = "controller.JCasC.configScripts.tool"
+    value = local.jenkins_jcasc_tool_script
+  }
+
+  set {
+    name  = "controller.JCasC.configScripts.unclassified"
+    value = local.jenkins_jcasc_unclassified_script
   }
 
   depends_on = [
