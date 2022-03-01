@@ -187,7 +187,7 @@ variable "jenkins_helm_repo" {
 variable "jenkins_helm_chart_version" {
   description = "Helm chart version for jenkins"
   type        = string
-  default     = "3.9.3"
+  default     = "3.11.5"
 }
 
 ###
@@ -295,7 +295,7 @@ variable "sonarqube_helm_repo" {
 variable "sonarqube_helm_chart_version" {
   description = "Version for sonarqube helm chart"
   type        = string
-  default     = "1.2.0+150"
+  default     = "1.2.5+179"
 }
 
 ###
