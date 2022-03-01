@@ -7,9 +7,10 @@ terraform {
 }
 
 provider "sonarqube" {
-    user   = "admin"
-    pass   = random_password.sonarqube.result 
-    host   = "https://sonarqube.${local.full_dns_zone}"
+  user                     = "admin"
+  pass                     = random_password.sonarqube.result
+  host                     = "https://sonarqube.${local.full_dns_zone}"
+  tls_insecure_skip_verify = true
 }
 
 resource "sonarqube_webhook" "webhook" {
