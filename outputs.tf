@@ -1,3 +1,5 @@
+# Developed by RIVA Solutions Inc 2022.  Authorized Use Only
+
 output "aws_eks_cluster_endpoint" {
   value = data.aws_eks_cluster.cluster.endpoint
 }

@@ -1,3 +1,5 @@
+# Developed by RIVA Solutions Inc 2022.  Authorized Use Only
+
 resource "aws_kms_key" "eks" {
   description             = "EKS Secret Encryption Key"
   deletion_window_in_days = 7

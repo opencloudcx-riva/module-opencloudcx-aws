@@ -1,3 +1,5 @@
+# Developed by RIVA Solutions Inc 2022.  Authorized Use Only
+
 resource "kubernetes_secret" "grafana" {
   metadata {
     name      = "grafana-admin"

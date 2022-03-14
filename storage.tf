@@ -1,3 +1,4 @@
+# Developed by RIVA Solutions Inc 2022.  Authorized Use Only
 
 ## s3 bucket for front50 storage
 

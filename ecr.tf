@@ -1,3 +1,5 @@
+# Developed by RIVA Solutions Inc 2022.  Authorized Use Only
+
 resource "aws_ecr_repository" "repository" {
   count = length(var.ecr_repos)
 

@@ -1,3 +1,5 @@
+# Developed by RIVA Solutions Inc 2022.  Authorized Use Only
+
 data "aws_route53_zone" "vpc" {
   name = var.dns_zone
 }

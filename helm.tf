@@ -1,3 +1,5 @@
+# Developed by RIVA Solutions Inc 2022.  Authorized Use Only
+
 resource "helm_release" "cert-manager" {
   name             = "cert-manager"
   chart            = "cert-manager"

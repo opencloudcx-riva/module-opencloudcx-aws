@@ -1,3 +1,5 @@
+# Developed by RIVA Solutions Inc 2022.  Authorized Use Only
+
 locals {
   jenkins_config_script = templatefile("${path.module}/script/jenkins-config.tpl", {
     jenkinsPassword = random_password.jenkins.result

@@ -1,3 +1,5 @@
+# Developed by RIVA Solutions Inc 2022.  Authorized Use Only
+
 locals {
   jenkins_jcasc_script = templatefile("${path.module}/script/jenkins-JCasC-jenkins.tpl", {
     # dns_zone        = local.full_dns_zone

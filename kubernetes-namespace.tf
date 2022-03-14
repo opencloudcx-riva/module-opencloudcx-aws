@@ -1,3 +1,5 @@
+# Developed by RIVA Solutions Inc 2022.  Authorized Use Only
+
 resource "kubernetes_namespace" "extra" {
   count = length(var.additional_namespaces)
   metadata {
