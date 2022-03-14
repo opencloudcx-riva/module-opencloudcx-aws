@@ -1,3 +1,5 @@
+    # Developed by RIVA Solutions Inc 2022.  Authorized Use Only
+
     export HAL_COMMAND='hal --daemon-endpoint http://spinnaker-spinnaker-halyard:8064'
     # echo "START"
     cd
