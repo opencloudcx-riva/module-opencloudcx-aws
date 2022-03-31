@@ -35,20 +35,22 @@ resource "aws_iam_policy" "spin-s3admin" {
   })
 }
 
+resource "aws_s3_bucket_server_side_encryption_configuration" "storage-encryption" {
+  bucket = aws_s3_bucket.storage.bucket
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
+  }
+}
+
 resource "aws_s3_bucket" "storage" {
   bucket = local.name
   tags   = var.tags
 
   versioning {
     enabled = true
-  }
-
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
   }
 }
 
@@ -77,19 +79,21 @@ resource "aws_iam_policy" "artifact-write" {
   })
 }
 
+resource "aws_s3_bucket_server_side_encryption_configuration" "artifact-encryption" {
+  bucket = aws_s3_bucket.artifact.bucket
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
+  }
+}
+
 resource "aws_s3_bucket" "artifact" {
   bucket = local.artifact-repo-name
   tags   = var.tags
 
   versioning {
     enabled = true
-  }
-
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
   }
 }
