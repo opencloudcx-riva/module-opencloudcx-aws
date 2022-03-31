@@ -35,6 +35,11 @@ resource "aws_iam_policy" "spin-s3admin" {
   })
 }
 
+resource "aws_s3_bucket" "storage" {
+  bucket = local.name
+  tags   = var.tags
+}
+
 resource "aws_s3_bucket_server_side_encryption_configuration" "storage-encryption" {
   bucket = aws_s3_bucket.storage.bucket
 
@@ -45,12 +50,10 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "storage-encryptio
   }
 }
 
-resource "aws_s3_bucket" "storage" {
-  bucket = local.name
-  tags   = var.tags
-
-  versioning {
-    enabled = true
+resource "aws_s3_bucket_versioning" "storage-versioning" {
+  bucket = aws_s3_bucket.storage.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
 
@@ -79,6 +82,11 @@ resource "aws_iam_policy" "artifact-write" {
   })
 }
 
+resource "aws_s3_bucket" "artifact" {
+  bucket = local.artifact-repo-name
+  tags   = var.tags
+}
+
 resource "aws_s3_bucket_server_side_encryption_configuration" "artifact-encryption" {
   bucket = aws_s3_bucket.artifact.bucket
 
@@ -89,11 +97,10 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "artifact-encrypti
   }
 }
 
-resource "aws_s3_bucket" "artifact" {
-  bucket = local.artifact-repo-name
-  tags   = var.tags
-
-  versioning {
-    enabled = true
+resource "aws_s3_bucket_versioning" "artifact-versioning" {
+  bucket = aws_s3_bucket.artifact.id
+  versioning_configuration {
+    status = "Enabled"
   }
 }
+
