@@ -26,6 +26,10 @@ output "jenkins_secret" {
   value = random_password.jenkins.result
 }
 
+output "sonarqube_secret" {
+  value = random_password.sonarqube.result
+}
+
 output "jenkins_url" {
   value = "jenkins-insecure.${local.full_dns_zone}"
 }
