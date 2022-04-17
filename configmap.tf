@@ -18,7 +18,6 @@ resource "kubernetes_config_map" "jenkins_config" {
   }
 
   depends_on = [
-    module.eks,
     kubernetes_namespace.spinnaker,
   ]
 }
