@@ -1,20 +1,69 @@
-# Developed by RIVA Solutions Inc 2022.  Authorized Use Only
+variable "aws_region" {
+  description = "The aws region to deploy the service into"
+  type        = string
+  default     = "us-east-1"
+}
 
-variable "name" {
+# variable "access_key" {
+#   description = "AWS access key"
+#   type        = string
+# }
+
+# variable "secret_key" {
+#   description = "AWS secret key"
+#   type        = string
+# }
+
+# variable "kubernetes_cluster_endpoint" {
+#   type = string
+# }
+
+# variable "kubernetes_auth_token" {
+#   type = string
+# }
+
+# variable "kubernetes_cluster_ca_certificate" {
+#   type = string
+# }
+
+variable "kubernetes_dockerhub_secret_name" {
+  description = "Kubernetes dockerhub secret name. This is the reference name used within a kaniko pods"
+  type        = string
+}
+
+variable "kubernetes_secret_dockerhub_username" {
+  description = "Kubernetes secret dockerhub username"
+  type        = string
+}
+
+variable "kubernetes_secret_dockerhub_password" {
+  description = "Kubernetes secret dockerhub password"
+  type        = string
+}
+
+variable "kubernetes_secret_dockerhub_email" {
+  description = "Kubernetes secret dockerhub email"
+  type        = string
+}
+
+variable "kubernetes_dockerhub_secret_repository_url" {
+  description = "URL for dockerhub registry"
+  type        = string
+  default     = "https://index.docker.io/v1/"
+}
+
+variable "random_seed" {
   type = string
 }
 
 variable "stack" {
-  type    = string
-  default = "dev"
-}
-
-variable "cluster_version" {
   type = string
 }
 
-variable "region" {
-  type = string
+variable "helm_timeout" {
+  description = "Timeout value to wait for helm chart deployment"
+  type        = number
+  default     = 600
 }
 
 variable "dns_zone" {
@@ -26,103 +75,6 @@ variable "full_dns_zone" {
   type    = string
   default = "stack.opencloudcx.internal"
 }
-
-variable "additional_namespaces" {
-  description = "Additional namespaces to create in cluster"
-  type        = list(string)
-  default     = []
-}
-
-variable "ecr_repos" {
-  description = "ECR repositories to create"
-  type        = list(string)
-  default     = []
-}
-
-variable "helm_timeout" {
-  description = "Timeout value to wait for helm chart deployment"
-  type        = number
-  default     = 600
-}
-
-### tags
-variable "tags" {
-  description = "The key-value maps for tagging"
-  type        = map(string)
-  default     = {}
-}
-
-variable "map_roles" {
-  description = "Additional IAM roles to add to the aws-auth configmap."
-  type = list(object({
-    rolearn  = string
-    username = string
-    groups   = list(string)
-  }))
-  default = []
-}
-
-variable "map_users" {
-  description = "Additional IAM users to add to the aws-auth configmap."
-  type = list(object({
-    userarn  = string
-    username = string
-    groups   = list(string)
-  }))
-  default = []
-}
-
-variable "worker_groups" {
-  type = list(object({
-    name                 = string
-    instance_type        = string
-    asg_desired_capacity = number
-  }))
-}
-
-variable "cluster_delete_timeout" {
-  description = "Timeout value when deleting the EKS cluster."
-  type        = string
-  default     = "15m"
-}
-
-variable "write_kubeconfig" {
-  description = "Whether to write a Kubectl config file containing the cluster configuration. Saved to `kubeconfig_output_path`."
-  type        = bool
-  default     = true
-}
-
-variable "private_subnets" {
-  type    = list(string)
-  default = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
-}
-
-variable "public_subnets" {
-  type    = list(string)
-  default = ["10.0.4.0/24", "10.0.5.0/24", "10.0.6.0/24"]
-}
-
-variable "cidr" {
-  type    = string
-  default = "10.0.0.0/16"
-}
-
-# variable "aws_certificate_arn" {
-#   description = "AWS SSL certificate ARN"
-#   type        = string
-# }
-
-# variable "aws_certificate_cname" {
-#   type = string
-# }
-
-# variable "aws_certificate_cname_value" {
-#   type = string
-# }
-
-
-
-
 
 ###########################################################
 ### Spinnaker helm information
@@ -152,6 +104,12 @@ variable "ingress_helm_repo" {
   description = "URL for Ingress Controller helm chart"
   type        = string
   default     = "https://kubernetes.github.io/ingress-nginx"
+}
+
+variable "ingress_helm_chart_version" {
+  description = "Helm chart version for ingress"
+  type        = string
+  default     = "4.0.19"
 }
 
 ###
@@ -205,6 +163,12 @@ variable "cert_manager_helm_repo" {
   default     = "https://charts.jetstack.io"
 }
 
+variable "cert_manager_helm_chart_version" {
+  description = "Version for cert manager helm chart"
+  type        = string
+  default     = "1.8.0"
+}
+
 ###
 ###########################################################
 
@@ -241,25 +205,6 @@ variable "grafana_helm_chart_version" {
   description = "Version for grafana helm chart"
   type        = string
   default     = "6.17.5"
-}
-
-###
-###########################################################
-
-###########################################################
-### selenium helm information
-###
-
-variable "selenium_helm_repo" {
-  description = "URL for selenium helm chart repository"
-  type        = string
-  default     = "https://chart.testarchitect.com"
-}
-
-variable "selenium_helm_chart_version" {
-  description = "Version for selenium helm chart"
-  type        = string
-  default     = "1.2.4"
 }
 
 ###
@@ -321,30 +266,3 @@ variable "prometheus_helm_chart_version" {
 
 ###
 ###########################################################
-
-variable "kubernetes_dockerhub_secret_name" {
-  description = "Kubernetes dockerhub secret name. This is the reference name used within a kaniko pods"
-  type        = string
-}
-
-variable "kubernetes_secret_dockerhub_username" {
-  description = "Kubernetes secret dockerhub username"
-  type        = string
-}
-
-variable "kubernetes_secret_dockerhub_password" {
-  description = "Kubernetes secret dockerhub password"
-  type        = string
-}
-
-variable "kubernetes_secret_dockerhub_email" {
-  description = "Kubernetes secret dockerhub email"
-  type        = string
-}
-
-variable "kubernetes_dockerhub_secret_repository_url" {
-  description = "URL for dockerhub registry"
-  type        = string
-  default     = "https://index.docker.io/v1/"
-}
-
