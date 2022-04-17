@@ -5,6 +5,12 @@ locals {
     # dns_zone        = local.full_dns_zone
     }
   )
+  jenkins_jcasc_tool_script = templatefile("${path.module}/script/jenkins-JCasC-tool.tpl", {
+    }
+  )
+  jenkins_jcasc_unclassified_script = templatefile("${path.module}/script/jenkins-JCasC-unclassified.tpl", {
+    }
+  )
 }
 
 resource "helm_release" "jenkins" {
@@ -118,6 +124,11 @@ resource "helm_release" "jenkins" {
   }
 
   set {
+    name  = "controller.installPlugins[15]"
+    value = "sonar:2.14"
+  }
+
+  set {
     name  = "controller.JCasC.enabled"
     value = "true"
   }
@@ -127,8 +138,13 @@ resource "helm_release" "jenkins" {
     value = local.jenkins_jcasc_script
   }
 
+  set {
+    name  = "controller.JCasC.configScripts.tool"
+    value = local.jenkins_jcasc_tool_script
+  }
+
   depends_on = [
-    module.eks,
+    helm_release.ingress-controller,
     kubernetes_namespace.jenkins,
   ]
 }
