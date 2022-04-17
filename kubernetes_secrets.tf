@@ -17,7 +17,6 @@ resource "kubernetes_secret" "grafana" {
   type = "kubernetes.io/basic-auth"
 
   depends_on = [
-    module.eks,
     kubernetes_namespace.opencloudcx,
   ]
 }
@@ -42,7 +41,6 @@ resource "kubernetes_secret" "dockerhub" {
   type = "kubernetes.io/dockerconfigjson"
 
   depends_on = [
-    module.eks,
     kubernetes_namespace.opencloudcx,
   ]
 }
@@ -64,7 +62,6 @@ resource "kubernetes_secret" "sonarqube" {
   type = "kubernetes.io/basic-auth"
 
   depends_on = [
-    module.eks,
     kubernetes_namespace.jenkins,
   ]
 }
