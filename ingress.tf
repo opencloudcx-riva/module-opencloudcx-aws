@@ -1,4 +1,4 @@
-# Developed by RIVA Solutions Inc 2022.  Authorized Use Only
+# # Developed by RIVA Solutions Inc 2022.  Authorized Use Only
 
 data "kubernetes_service" "ingress_nginx" {
   metadata {
@@ -18,6 +18,7 @@ data "kubernetes_service" "k8s_dashboard" {
   }
 
   depends_on = [
+    helm_release.ingress-controller,
     helm_release.k8s_dashboard,
   ]
 }
@@ -198,9 +199,9 @@ resource "kubernetes_ingress" "grafana" {
     namespace = "opencloudcx"
 
     annotations = {
-      "kubernetes.io/ingress.allow-http"            = "false"
-      "kubernetes.io/ingress.class"                 = "nginx"
-      "cert-manager.io/cluster-issuer"              = "cert-manager"
+      "kubernetes.io/ingress.allow-http" = "false"
+      "kubernetes.io/ingress.class"      = "nginx"
+      "cert-manager.io/cluster-issuer"   = "cert-manager"
       # "nginx.ingress.kubernetes.io/certificate-arn" = var.aws_certificate_arn
     }
   }
