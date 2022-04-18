@@ -33,12 +33,13 @@ terraform {
 #   }
 # }
 
+data "aws_partition" "current" {}
+
 locals {
   full_dns_zone      = format("%s.%s", var.stack, var.dns_zone)
   artifact-repo-name = join("-", compact(["artifact", var.stack, local.suffix]))
   suffix             = random_string.scope.result
   name               = format("%s-%s", var.name, var.stack)
-
 }
 
 resource "random_string" "scope" {
