@@ -26,6 +26,13 @@ variable "aws_region" {
 #   type = string
 # }
 
+### tags
+variable "tags" {
+  description = "The key-value maps for tagging"
+  type        = map(string)
+  default     = {}
+}
+
 variable "kubernetes_dockerhub_secret_name" {
   description = "Kubernetes dockerhub secret name. This is the reference name used within a kaniko pods"
   type        = string
