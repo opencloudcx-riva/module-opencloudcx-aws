@@ -36,21 +36,38 @@ resource "aws_iam_policy" "spin-s3admin" {
   })
 }
 
+resource "aws_s3_bucket_versioning" "storage_versioning" {
+  bucket = aws_s3_bucket.storage.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "storage_encryption" {
+  bucket = aws_s3_bucket.storage.bucket
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
+  }
+}
+
 resource "aws_s3_bucket" "storage" {
   bucket = local.name
   tags   = var.tags
 
-  versioning {
-    enabled = true
-  }
+  # versioning {
+  #   enabled = true
+  # }
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
+  # server_side_encryption_configuration {
+  #   rule {
+  #     apply_server_side_encryption_by_default {
+  #       sse_algorithm = "AES256"
+  #     }
+  #   }
+  # }
 }
 
 locals {
@@ -76,6 +93,23 @@ resource "aws_iam_policy" "artifact-write" {
     }]
     Version = "2012-10-17"
   })
+}
+
+resource "aws_s3_bucket_versioning" "artifact_versioning" {
+  bucket = aws_s3_bucket.artifact.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "artifact_encryption" {
+  bucket = aws_s3_bucket.artifact.bucket
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
+  }
 }
 
 resource "aws_s3_bucket" "artifact" {
