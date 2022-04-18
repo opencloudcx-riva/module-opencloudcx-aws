@@ -35,4 +35,5 @@ terraform {
 
 locals {
   full_dns_zone = format("%s.%s", var.stack, var.dns_zone)
+  artifact-repo-name = join("-", compact(["artifact", var.stack, local.suffix]))
 }
