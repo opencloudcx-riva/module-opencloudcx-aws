@@ -21,8 +21,8 @@
     ##########
     # url override for auth
     #
-    $HAL_COMMAND config security ui edit --override-base-url https://spinnaker.${dns_zone}
-    $HAL_COMMAND config security api edit --override-base-url https://spinnaker-gate.${dns_zone}
+    # $HAL_COMMAND config security ui edit --override-base-url https://spinnaker.${dns_zone}
+    # $HAL_COMMAND config security api edit --override-base-url https://spinnaker-gate.${dns_zone}
 
     $HAL_COMMAND deploy apply
 
