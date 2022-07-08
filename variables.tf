@@ -219,7 +219,7 @@ variable "keycloak_helm_repo" {
 variable "keycloak_helm_chart_version" {
   description = "Version for keycloak helm chart"
   type        = string
-  default     = "5.1.2"
+  default     = "9.4.0"
 }
 
 ###
@@ -276,7 +276,7 @@ variable "influxdb_helm_repo" {
 variable "influxdb_helm_chart_version" {
   description = "Version for InfluxDB helm chart"
   type        = string
-  default     = "2.4.1"
+  default     = "5.3.7"
 }
 
 ###
